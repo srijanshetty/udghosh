@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" href="images/logo.png">
+<title>Udghosh</title>
+<style type="text/css">
+<!--
+@import url(http://fonts.googleapis.com/css?family=Josefin+Sans+Std+Light);
+html,body{height:100%;}
+body{margin:0px; padding:0px; background:#000; color:#FFFFFF;}
+#toolbar{position:fixed; z-index:2; left:30px; top:10px; padding:5px; background:url(fs_img_g_bg.png);}
+#toolbar img{border:none;}
+#img_title{position:fixed; z-index:2; right:10px; top:10px; padding:10px; background:url(fs_img_g_bg.png); color:#FFF; font-family:'Josefin Sans Std Light', arial, serif; font-size:24px; text-transform:uppercase;}
+#bg{position:fixed; z-index:1; overflow:hidden;}
+#bgimg{display:none;}
+#preloader{position:relative; z-index:2; width:32px; padding:20px; top:80px; margin:auto; background:#000;}
+#outer_container{z-index:2; position:fixed; bottom:0; margin:0; height:170px; padding:40px 5px;}
+#thumbScroller{position:relative; overflow:hidden; background:url(fs_img_g_bg.png);}
+#thumbScroller .container{position:relative; left:0;}
+#thumbScroller .content{float:left;}
+#thumbScroller .content div{margin:10px; height:100%;}
+#thumbScroller img{border:5px solid #fff;}
+#thumbScroller a{padding:5px; display:block;}
+-->
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+</head>
+<body>
+<div id="bg"><img src="images/pronites/02_60D.JPG" width="1680" height="1050" id="bgimg" /></div>
+<div id="preloader"><img src="ajax-loader_dark.gif" width="32" height="32" /></div>
+<div id="img_title"></div>
+<div id="toolbar"><a href="index.html" title="Back"><img src="images/back.png" width="50" height="50"  /></a></div>
+<div id="outer_container">
+<div id="thumbScroller">
+	<div class="container">
+    	<div class="content">
+            <div><a href="images/pronites/02_60D.JPG"><img src="images/pronites/02_60D_thumb.JPG" title="Pronites" alt="Pronites" class="thumb" /></a></div>
+        </div>
+    	<div class="content">
+            <div><a href="images/pronites/06_60D.JPG"><img src="images/pronites/06_60D_thumb.JPG" title="Pronites" alt="Pronites" class="thumb" /></a></div>
+        </div>
+    	<div class="content">
+            <div><a href="images/pronites/DSC_0178.JPG"><img src="images/pronites/DSC_0178_thumb.JPG" title="Pronites" alt="Pronites" class="thumb" /></a></div>
+        </div>
+    	<div class="content">
+            <div><a href="images/pronites/IMG_0541.JPG"><img src="images/pronites/IMG_0541_thumb.JPG" title="Pronites" alt="Pronites" class="thumb" /></a></div>
+        </div>
+    	<div class="content">
+            <div><a href="images/pronites/IMG_0547.JPG"><img src="images/pronites/IMG_0547_thumb.JPG" title="Pronites" alt="Pronites" class="thumb" /></a></div>
+        </div>
+    	<div class="content">
+            <div><a href="images/pronites/IMG_3490_(120ppi).jpg"><img src="images/pronites/IMG_3490_(120ppi)_thumb.jpg" title="Pronites" alt="Pronites" class="thumb" /></a></div>
+        </div>
+    	<div class="content">
+            <div><a href="images/pronites/IMG_3550_(120ppi).jpg"><img src="images/pronites/IMG_3550_(120ppi)_thumb.jpg" title="Pronites" alt="Pronites" class="thumb" /></a></div>
+        </div>
+    	<div class="content">
+            <div><a href="images/pronites/IMG_3563_(120ppi).jpg"><img src="images/pronites/IMG_3563_(120ppi)_thumb.jpg" title="Pronites" alt="Pronites" class="thumb" /></a></div>
+        </div>
+    	<div class="content">
+            <div><a href="images/pronites/IMG_9659.JPG"><img src="images/pronites/IMG_9659_thumb.JPG" title="Pronites" alt="Pronites" class="thumb" /></a></div>
+        </div>
+
+</div>
+</div>
+<script>
+$outer_container=$("#outer_container");
+$thumbScroller=$("#thumbScroller");
+$thumbScroller_container=$("#thumbScroller .container");
+$thumbScroller_content=$("#thumbScroller .content");
+$thumbScroller_thumb=$("#thumbScroller .thumb");
+$preloader=$("#preloader");
+$bgimg="#bgimg";
+
+$(window).load(function() {
+	//thumbnail scroller
+	sliderLeft=$thumbScroller_container.position().left;
+	padding=$outer_container.css("paddingRight").replace("px", "");
+	sliderWidth=$(window).width()-padding;
+	$thumbScroller.css("width",sliderWidth);
+	var totalContent=0;
+	fadeSpeed=200;
+
+	$thumbScroller_content.each(function () {
+		var $this=$(this);
+		totalContent+=$this.innerWidth();
+		$thumbScroller_container.css("width",totalContent);
+		$this.children().children().children(".thumb").fadeTo(fadeSpeed, 0.6);
+	});
+
+	$thumbScroller.mousemove(function(e){
+		if($thumbScroller_container.width()>sliderWidth){
+	  		var mouseCoords=(e.pageX - this.offsetLeft);
+	  		var mousePercentX=mouseCoords/sliderWidth;
+	  		var destX=-(((totalContent-(sliderWidth))-sliderWidth)*(mousePercentX));
+	  		var thePosA=mouseCoords-destX;
+	  		var thePosB=destX-mouseCoords;
+	  		var animSpeed=600; //ease amount
+	  		var easeType="easeOutCirc";
+	  		if(mouseCoords>destX){
+		  		//$thumbScroller_container.css("left",-thePosA); //without easing
+		  		$thumbScroller_container.stop().animate({left: -thePosA}, animSpeed,easeType); //with easing
+	  		} else if(mouseCoords<destX){
+		  		//$thumbScroller_container.css("left",thePosB); //without easing
+		  		$thumbScroller_container.stop().animate({left: thePosB}, animSpeed,easeType); //with easing
+	  		} else {
+				$thumbScroller_container.stop();
+	  		}
+		}
+	});
+
+	$outer_container.fadeTo(fadeSpeed, 0.8);
+	$outer_container.hover(
+		function(){ //mouse over
+			var $this=$(this);
+			$this.stop().fadeTo("slow", 1);
+		},
+		function(){ //mouse out
+			var $this=$(this);
+			$this.stop().fadeTo("slow", 0);
+		}
+	);
+
+	$thumbScroller_thumb.hover(
+		function(){ //mouse over
+			var $this=$(this);
+			$this.stop().fadeTo(fadeSpeed, 1);
+		},
+		function(){ //mouse out
+			var $this=$(this);
+			$this.stop().fadeTo(fadeSpeed, 0.6);
+		}
+	);
+
+	//on window resize scale image and reset thumbnail scroller
+	$(window).resize(function() {
+		FullScreenBackground($bgimg);
+		$thumbScroller_container.stop().animate({left: sliderLeft}, 400,"easeOutCirc");
+		var newWidth=$(window).width()-padding;
+		$thumbScroller.css("width",newWidth);
+		sliderWidth=newWidth;
+	});
+
+	FullScreenBackground($bgimg); //scale 1st image
+});
+
+$($bgimg).load(function() {
+	$preloader.fadeOut("fast"); //hide preloader
+	var $this=$(this);
+	$this.removeAttr("width").removeAttr("height").css({ width: "", height: "" });
+	FullScreenBackground($this);
+	var imageTitle=$("#img_title").data("imageTitle");
+	if(imageTitle){
+		$this.attr("alt", imageTitle).attr("title", imageTitle);
+		$("#img_title").html(imageTitle);
+	} else {
+		$("#img_title").html($(this).attr("title"));
+	}
+	$this.fadeIn("slow"); //fadein background image
+});
+
+//Clicking on thumbnail changes the background image
+$("#outer_container a").click(function(event){
+	event.preventDefault();
+	$preloader.fadeIn("fast"); //show preloader
+	var $this=$(this);
+	var title_attr=$this.children("img").attr("title"); //get image title attribute
+	$("#img_title").data("imageTitle", title_attr); //store image title
+	$($bgimg).css("display","none").attr("src", this); //change image source
+});
+
+//Image scale function
+function FullScreenBackground(theItem){
+var winWidth=$(window).width();
+var winHeight=$(window).height();
+var imageWidth=$(theItem).width();
+var imageHeight=$(theItem).height();
+var picHeight = imageHeight / imageWidth;
+var picWidth = imageWidth / imageHeight;
+$(theItem).css("margin-left",(winWidth-$(theItem).width())/2);
+$(theItem).css("margin-top",(winHeight-$(theItem).height())/2);
+}
+</script>
+</body>
+</html>
